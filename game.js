@@ -161,32 +161,36 @@
 		/******************** TODO: Fix Me! ********************/
 
 		doTurn: function (row, column) {
-			//Implement the correct rules
-			this.board[row][column] = this.currentPlayer;
+			if(this.board[row][column] !== PLAYER_NONE){
+				alert('This cell already is already occupied')
+			}else {
+				//Implement the correct rules
+				this.board[row][column] = this.currentPlayer;
 
 
-			var cells = this.checkInAllDirections(row, column);
-			for (var j = 0; j < cells.length; j++) {
-				this.flip(cells[j]);
-			}
-
-			this.currentPlayer *= -1;
-			this.drawBoard();
-			var progress = this.getGameProgress();
-			Util.updateScore(progress);
-
-			if (progress.free === 0) {
-				if(progress.red === progress.blue) {
-					alert('game Over - Draw');
+				var cells = this.checkInAllDirections(row, column);
+				for (var j = 0; j < cells.length; j++) {
+					this.flip(cells[j]);
 				}
-				else if(progress.red >= progress.blue) {
-					alert('game Over - Red wins');
-				}
-				else{
-					alert('game Over - Blue wins');
-				}
-				if(confirm('Do you want to play again?')){
-					this.init().drawBoard();
+
+				this.currentPlayer *= -1;
+				this.drawBoard();
+				var progress = this.getGameProgress();
+				Util.updateScore(progress);
+				// checks if game is complete
+				if (progress.free === 0) {
+					if (progress.red === progress.blue) {
+						alert('game Over - Draw');
+					}
+					else if (progress.red >= progress.blue) {
+						alert('game Over - Red wins');
+					}
+					else {
+						alert('game Over - Blue wins');
+					}
+					if (confirm('Do you want to play again?')) {
+						this.init().drawBoard();
+					}
 				}
 			}
 		},
